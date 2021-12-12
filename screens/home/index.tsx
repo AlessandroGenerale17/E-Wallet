@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Card from '../../components/Card/';
 import {
     RootStackParamList,
@@ -12,24 +12,20 @@ type Props<T extends keyof RootStackParamList> = {
     navigation: ScreenNavigationProp<T>;
 };
 
-const Home: React.FC<Props<'Home'>> = ({navigation}) => {
+const Home: React.FC<Props<'Home'>> = ({ navigation }) => {
     return (
         <View>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Assets</Text>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity>
+                        <Text style={styles.addAssetButton}>+</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View>
+            <View style={styles.assetsContainer}>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('AssetDetails')}>
-                    <Card />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Card />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Card />
-                </TouchableOpacity>
-                <TouchableOpacity>
                     <Card />
                 </TouchableOpacity>
             </View>
@@ -38,13 +34,31 @@ const Home: React.FC<Props<'Home'>> = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-    header: {},
+    header: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: 'black',
+        paddingLeft: '3%',
+        paddingRight: '3%'
+    },
+    buttonContainer: {
+        backgroundColor: 'white',
+        paddingLeft: '1%',
+        paddingRight: '1%',
+        borderRadius: 5
+    },
+    addAssetButton: {
+        color: 'black'
+    },
     headerText: {
         fontSize: 20,
         fontWeight: 'bold',
-        textAlign: 'center',
-        backgroundColor: 'black',
         color: 'white'
+    },
+    assetsContainer: {
+        padding: '3%'
     }
 });
 

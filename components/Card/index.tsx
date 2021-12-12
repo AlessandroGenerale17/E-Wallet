@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 const Card: React.FC = () => {
     const [state, setState] = useState<'up' | 'down'>('up');
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     card: {
         display: 'flex',
-        backgroundColor: 'gray',
+        backgroundColor: 'lightgray',
         position: 'relative',
         padding: '2%',
         borderRadius: 12

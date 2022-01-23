@@ -15,3 +15,4 @@ const AssetDetails: React.FC = () => {
 };
 
 export default AssetDetails;
+ 

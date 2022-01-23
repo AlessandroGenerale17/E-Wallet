@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/RootStackParamList';
 import Home from '../screens/home';
 import AssetDetails from '../screens/assetDetails';
+import AddAsset from '../screens/addAsset';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -21,6 +22,11 @@ const StackNavigator: React.VFC = () => {
                     name='AssetDetails'
                     component={AssetDetails}
                     options={{ title: 'Details' }}
+                />
+                <Stack.Screen
+                    name='AddAsset'
+                    component={AddAsset}
+                    options={{ headerShown: false }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

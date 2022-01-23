@@ -18,7 +18,8 @@ const Home: React.FC<Props<'Home'>> = ({ navigation }) => {
             <View style={styles.header}>
                 <Text style={styles.headerText}>Assets</Text>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('AddAsset')}>
                         <Text style={styles.addAssetButton}>+</Text>
                     </TouchableOpacity>
                 </View>

@@ -9,13 +9,22 @@ import {
     NativeSyntheticEvent,
     TextInputChangeEventData
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+const MARGIN_HEIGHT: number = Dimensions.get('window').height * 0.02;
+
+type Checkpoint = {
+    id: string;
+    mark: string;
+    direction: string;
+    precision: string;
+};
 
 type FormState = {
     identifier: { val: string; error: string | null };
     quantity: { val: string; error: string | null };
+    checkpoints: { val: Checkpoint[]; error: string | null };
 };
-
-const MARGIN_HEIGHT: number = Dimensions.get('window').height * 0.02;
 
 type Props = {
     placeholder: string;
@@ -30,7 +39,8 @@ const Input: React.FC<Props> = (props: Props) => (
 const Form: React.FC = () => {
     const [formState, setFormState] = useState<FormState>({
         identifier: { val: '', error: null },
-        quantity: { val: '', error: null }
+        quantity: { val: '', error: null },
+        checkpoints: { val: [], error: null }
     });
 
     const onChange =
@@ -71,7 +81,6 @@ const Form: React.FC = () => {
                 }
             }
         };
-    console.log(formState);
 
     return (
         <View style={styles.form}>
@@ -116,7 +125,12 @@ const Form: React.FC = () => {
             <Text>Track your asset now</Text>
             <Text>Place as many checkpoints as you deem necessary</Text>
             <View>
-                <Text>Your Checkpoints</Text>
+                <View>
+                    <Text>Your Checkpoints:</Text>
+                    <TouchableOpacity>
+                        <Text>+</Text>
+                    </TouchableOpacity>
+                </View>
                 <View></View>
             </View>
         </View>

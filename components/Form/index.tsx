@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 
 type FormState = {
-    identifier: string;
-    quantity: string;
+    identifier: { val: string; error: string | null };
+    quantity: { val: string; error: string | null };
 };
 
 const MARGIN_HEIGHT: number = Dimensions.get('window').height * 0.02;
@@ -29,38 +29,89 @@ const Input: React.FC<Props> = (props: Props) => (
 
 const Form: React.FC = () => {
     const [formState, setFormState] = useState<FormState>({
-        identifier: '',
-        quantity: ''
+        identifier: { val: '', error: null },
+        quantity: { val: '', error: null }
     });
 
     const onChange =
         (e: NativeSyntheticEvent<TextInputChangeEventData>) => (name: string) =>
             setFormState(prevState => ({
                 ...prevState,
-                [name]: e.nativeEvent.text
+                [name]: { val: e.nativeEvent.text, error: null }
             }));
+
+    const onBlur =
+        (e: NativeSyntheticEvent<TextInputChangeEventData>) =>
+        async (name: string) => {
+            let userInput = e.nativeEvent.text;
+            if (!userInput?.trim().length) return;
+            if (name === 'identifier') {
+                try {
+                    // process to make a request to see if specific stock exists
+                    console.log(`Does ${userInput} exist ?`);
+                    // if it exists sucess state
+                    // else error state
+                } catch (err) {
+                    if (err instanceof Error) console.log(err);
+                }
+            }
+
+            if (name === 'quantity') {
+                const numericInput = parseFloat(userInput);
+                if (!numericInput) return;
+                if (numericInput < 0) {
+                    setFormState(prevState => ({
+                        ...prevState,
+                        quantity: {
+                            ...prevState.quantity,
+                            error: 'The quantity cannot be below 0'
+                        }
+                    }));
+                    return;
+                }
+            }
+        };
     console.log(formState);
+
     return (
         <View style={styles.form}>
-            <View style={styles.inputContainer}>
+            <View
+                style={[
+                    {
+                        borderColor: formState.identifier.error
+                            ? 'red'
+                            : 'black'
+                    },
+                    styles.inputContainer
+                ]}>
                 <Text>Asset</Text>
-                <Input
-                    placeholder='e.g. Google'
-                    onChange={e => onChange(e)('identifier')}
-                    onBlur={(
-                        e: NativeSyntheticEvent<TextInputChangeEventData>
-                    ) => console.log('hello')}
-                />
+                <View>
+                    <Input
+                        placeholder='e.g. Google'
+                        onChange={e => onChange(e)('identifier')}
+                        onBlur={e => onBlur(e)('identifier')}
+                    />
+                </View>
+            </View>
+            <View>
+                {formState.identifier.error && (
+                    <Text>Info Error: {formState.identifier.error}</Text>
+                )}
             </View>
             <View style={styles.inputContainer}>
                 <Text>Quantity</Text>
-                <Input
-                    placeholder='e.g. 2'
-                    onChange={e => onChange(e)('quantity')}
-                    onBlur={(
-                        e: NativeSyntheticEvent<TextInputChangeEventData>
-                    ) => console.log('hello')}
-                />
+                <View>
+                    <Input
+                        placeholder='e.g. 2'
+                        onChange={e => onChange(e)('quantity')}
+                        onBlur={e => onBlur(e)('quantity')}
+                    />
+                </View>
+            </View>
+            <View>
+                {formState.quantity.error && (
+                    <Text>Info Error: {formState.quantity.error}</Text>
+                )}
             </View>
             <Text>Track your asset now</Text>
             <Text>Place as many checkpoints as you deem necessary</Text>
@@ -84,7 +135,7 @@ const styles = StyleSheet.create({
         padding: '2%',
         borderWidth: 1,
         borderRadius: 9,
-        marginBottom: '5%'
+        marginBottom: '2%'
     }
 });
 

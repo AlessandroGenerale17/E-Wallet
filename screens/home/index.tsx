@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Card from '../../components/Card/';
@@ -13,6 +14,9 @@ type Props<T extends keyof RootStackParamList> = {
 };
 
 const Home: React.FC<Props<'Home'>> = ({ navigation }) => {
+    /* useTheme hook to access all the themes */
+    // const { colors } = useTheme();
+    // console.log(colors);
     return (
         <View>
             <View style={styles.header}>

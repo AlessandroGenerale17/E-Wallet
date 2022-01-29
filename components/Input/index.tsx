@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-    NativeSyntheticEvent,
-    TextInput,
-    TextInputChangeEventData
-} from 'react-native';
+import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 import styled from 'styled-components/native';
 
 type Props = {
@@ -12,7 +8,7 @@ type Props = {
     onBlur: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
 };
 
-type StyleProps = { bgColor: 'red' };
+type StyleProps = { bgColor: string };
 
 const StyledInput = styled.TextInput<StyleProps>`
     width: 80%;
@@ -20,6 +16,6 @@ const StyledInput = styled.TextInput<StyleProps>`
 `;
 
 const Input: React.FC<Props> = props => (
-    <StyledInput {...props} bgColor='red' />
+    <StyledInput {...props} bgColor={'pink'} />
 );
 export default Input;

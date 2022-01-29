@@ -10,6 +10,8 @@ import {
     TextInputChangeEventData
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Input from '../Input';
+import InputDropdown from '../SuggestionsDropdown';
 
 const MARGIN_HEIGHT: number = Dimensions.get('window').height * 0.02;
 
@@ -27,16 +29,10 @@ type FormState = {
 };
 
 type Props = {
-    placeholder: string;
-    onChange: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
-    onBlur: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+    suggestions: string[];
 };
 
-const Input: React.FC<Props> = (props: Props) => (
-    <TextInput {...props} style={{ width: '80%' }} />
-);
-
-const Form: React.FC = () => {
+const Form: React.FC<Props> = ({ suggestions }) => {
     const [formState, setFormState] = useState<FormState>({
         identifier: { val: '', error: null },
         quantity: { val: '', error: null },
@@ -84,32 +80,33 @@ const Form: React.FC = () => {
 
     return (
         <View style={styles.form}>
-            <View
-                style={[
-                    {
-                        borderColor: formState.identifier.error
-                            ? 'red'
-                            : 'black'
-                    },
-                    styles.inputContainer
-                ]}>
+            <View>
                 <Text>Asset</Text>
-                <View>
+                <View
+                    style={[
+                        {
+                            borderColor: formState.identifier.error
+                                ? 'red'
+                                : 'black'
+                        },
+                        styles.inputContainer
+                    ]}>
                     <Input
                         placeholder='e.g. Google'
                         onChange={e => onChange(e)('identifier')}
                         onBlur={e => onBlur(e)('identifier')}
                     />
                 </View>
+                <InputDropdown suggestions={suggestions} />
             </View>
             <View>
                 {formState.identifier.error && (
                     <Text>Info Error: {formState.identifier.error}</Text>
                 )}
             </View>
-            <View style={styles.inputContainer}>
+            <View>
                 <Text>Quantity</Text>
-                <View>
+                <View style={styles.inputContainer}>
                     <Input
                         placeholder='e.g. 2'
                         onChange={e => onChange(e)('quantity')}
@@ -139,7 +136,7 @@ const Form: React.FC = () => {
 
 const styles = StyleSheet.create({
     form: {
-        marginTop: ` ${MARGIN_HEIGHT}%`,
+        marginTop: `${MARGIN_HEIGHT}%`,
         flex: 1,
         alignItems: 'center'
     },
@@ -147,9 +144,10 @@ const styles = StyleSheet.create({
         width: '90%',
         alignItems: 'center',
         padding: '2%',
-        borderWidth: 1,
+        borderWidth: 3,
         borderRadius: 9,
-        marginBottom: '2%'
+        marginBottom: '2%',
+        flexDirection: 'row'
     }
 });
 

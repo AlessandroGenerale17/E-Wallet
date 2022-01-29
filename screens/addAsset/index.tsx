@@ -3,9 +3,11 @@ import { StyleSheet, View } from 'react-native';
 import Form from '../../components/Form';
 
 const AddAsset: React.FC = () => {
+    const suggestions = ['google', 'tesla', 'amazon'];
+
     return (
         <View style={styles.view}>
-            <Form />
+            <Form suggestions={suggestions} />
         </View>
     );
 };

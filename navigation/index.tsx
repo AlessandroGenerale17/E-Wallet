@@ -5,12 +5,15 @@ import { RootStackParamList } from '../types/RootStackParamList';
 import Home from '../screens/home';
 import AssetDetails from '../screens/assetDetails';
 import AddAsset from '../screens/addAsset';
+import theme from '../theme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const StackNavigator: React.VFC = () => {
+    /* TODO: will be managed by some global state */
+    const dark = true;
     return (
-        <NavigationContainer>
+        <NavigationContainer theme={dark ? theme(1) : theme(0)}>
             {/* First in the stack is default  */}
             <Stack.Navigator>
                 <Stack.Screen

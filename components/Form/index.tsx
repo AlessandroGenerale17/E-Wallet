@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
     Text,
     View,
-    TextInput,
     StyleSheet,
     Dimensions,
     NativeSyntheticEvent,
@@ -11,6 +10,10 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Input from '../Input';
 import InputDropdown from '../SuggestionsDropdown';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSuggestions } from '../../store/addAssetFlow/actions';
+import { selectInputFieldSuggestions } from '../../store/addAssetFlow/selectors';
+import { Asset } from '../../types/Asset';
 
 const MARGIN_HEIGHT: number = Dimensions.get('window').height * 0.02;
 
@@ -36,14 +39,18 @@ const Form: React.FC<Props> = ({}) => {
         checkpoints: { val: [], error: null }
     });
 
-    const suggestions = ['google', 'tesla', 'amazon'];
+    const dispatch = useDispatch();
 
-    const fetchSuggestions = () => console.log('fetch suggestions');
+    const suggestions: Asset[] = useSelector(selectInputFieldSuggestions);
 
     useEffect(() => {
+        const { identifier } = formState;
+
+        let searchTerm = identifier.val.trim();
+
         const timeout = setTimeout(() => {
             // or dispatch an action
-            fetchSuggestions();
+            if (searchTerm) dispatch(fetchSuggestions(identifier.val));
         }, 1000);
 
         return () => clearTimeout(timeout);

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import {
     Text,
     View,
@@ -28,16 +27,27 @@ type FormState = {
     checkpoints: { val: Checkpoint[]; error: string | null };
 };
 
-type Props = {
-    suggestions: string[];
-};
+type Props = {};
 
-const Form: React.FC<Props> = ({ suggestions }) => {
+const Form: React.FC<Props> = ({}) => {
     const [formState, setFormState] = useState<FormState>({
         identifier: { val: '', error: null },
         quantity: { val: '', error: null },
         checkpoints: { val: [], error: null }
     });
+
+    const suggestions = ['google', 'tesla', 'amazon'];
+
+    const fetchSuggestions = () => console.log('fetch suggestions');
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            // or dispatch an action
+            fetchSuggestions();
+        }, 1000);
+
+        return () => clearTimeout(timeout);
+    }, [formState.identifier.val]);
 
     const onChange =
         (e: NativeSyntheticEvent<TextInputChangeEventData>) => (name: string) =>

@@ -1,7 +1,8 @@
 import { InitialState, AddAssetAction } from './types';
 
 const initialState: InitialState = {
-    inputFieldSuggestions: []
+    inputFieldSuggestions: [],
+    recentSearches: []
 };
 
 const reducer = (state = initialState, action: AddAssetAction) => {

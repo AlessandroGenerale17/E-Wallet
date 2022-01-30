@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Input from '../Input';
-import InputDropdown from '../SuggestionsDropdown';
+import AddAssetInput from './addAssetInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSuggestions } from '../../store/addAssetFlow/actions';
 import { selectInputFieldSuggestions } from '../../store/addAssetFlow/selectors';
@@ -30,7 +30,9 @@ type FormState = {
     checkpoints: { val: Checkpoint[]; error: string | null };
 };
 
-type Props = {};
+type Props = {
+    onSubmit: () => void;
+};
 
 const Form: React.FC<Props> = ({}) => {
     const [formState, setFormState] = useState<FormState>({
@@ -102,22 +104,11 @@ const Form: React.FC<Props> = ({}) => {
         <View style={styles.form}>
             <View>
                 <Text>Asset</Text>
-                <View
-                    style={[
-                        {
-                            borderColor: formState.identifier.error
-                                ? 'red'
-                                : 'black'
-                        },
-                        styles.inputContainer
-                    ]}>
-                    <Input
-                        placeholder='e.g. Google'
-                        onChange={e => onChange(e)('identifier')}
-                        onBlur={e => onBlur(e)('identifier')}
-                    />
-                </View>
-                <InputDropdown suggestions={suggestions} />
+                <AddAssetInput
+                    suggestions={suggestions}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                />
             </View>
             <View>
                 {formState.identifier.error && (

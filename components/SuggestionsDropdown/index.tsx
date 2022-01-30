@@ -23,7 +23,7 @@ const InputDropdown: React.FC<Props> = ({ suggestions, limit }) => {
                 BACKEND needs fixing on response
             */}
             {suggestionsToPrompt.map(suggestion => (
-                <Text key={suggestion.id}>{suggestion.name}</Text>
+                <Text key={suggestion.symbol}>{suggestion.symbol}</Text>
             ))}
         </StyledView>
     );

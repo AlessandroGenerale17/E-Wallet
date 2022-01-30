@@ -26,7 +26,6 @@ export const fetchSuggestions =
             return;
         }
         const suggestions = response.data;
-        // did something go wrong ?
         if (!suggestions.length) {
             return;
         }

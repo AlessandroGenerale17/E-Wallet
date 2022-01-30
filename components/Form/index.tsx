@@ -57,11 +57,14 @@ const Form: React.FC<Props> = ({}) => {
     }, [formState.identifier.val]);
 
     const onChange =
-        (e: NativeSyntheticEvent<TextInputChangeEventData>) => (name: string) =>
+        (e: NativeSyntheticEvent<TextInputChangeEventData>) =>
+        (name: string) => {
+            const userInput: string = e.nativeEvent.text;
             setFormState(prevState => ({
                 ...prevState,
-                [name]: { val: e.nativeEvent.text, error: null }
+                [name]: { val: userInput, error: null }
             }));
+        };
 
     const onBlur =
         (e: NativeSyntheticEvent<TextInputChangeEventData>) =>

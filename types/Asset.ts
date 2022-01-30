@@ -1,7 +1,7 @@
 export interface Asset {
-    id: string;
-    name: string;
     symbol: string;
+    name: string;
+    type: string;
 }
 
 export interface Crypto extends Asset {}

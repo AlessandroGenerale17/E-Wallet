@@ -10,4 +10,8 @@ type SaveFetchedSuggestions = {
     payload: Asset[];
 };
 
-export type AddAssetAction = SaveFetchedSuggestions;
+type ClearSuggestions = {
+    type: 'CLEAR_SUGGESTIONS';
+};
+
+export type AddAssetAction = SaveFetchedSuggestions | ClearSuggestions;

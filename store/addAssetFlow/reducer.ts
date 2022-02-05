@@ -7,6 +7,11 @@ const initialState: InitialState = {
 
 const reducer = (state = initialState, action: AddAssetAction) => {
     switch (action.type) {
+        case 'CLEAR_SUGGESTIONS':
+            return {
+                ...state,
+                inputFieldSuggestions: initialState.inputFieldSuggestions
+            };
         case 'SAVE_INPUT_FIELD_SUGGESTIONS':
             return {
                 ...state,

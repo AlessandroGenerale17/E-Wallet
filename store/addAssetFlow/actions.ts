@@ -11,6 +11,10 @@ export const saveFetchedSuggestions = (
     payload: suggestions
 });
 
+export const clearSuggestions = () => ({
+    type: 'CLEAR_SUGGESTIONS'
+});
+
 export const fetchSuggestions =
     (keyboardInput: string) =>
     async (dispatch: AppDispatch, getState: () => RootState) => {

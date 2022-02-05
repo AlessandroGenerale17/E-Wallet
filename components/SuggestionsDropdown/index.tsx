@@ -14,16 +14,12 @@ type Props = {
 };
 
 const InputDropdown: React.FC<Props> = ({ suggestions, limit }) => {
-    console.log('inputDropdown ', suggestions);
     const suggestionLimit = limit ? limit : 3;
     const suggestionsToPrompt = suggestions.slice(0, suggestionLimit);
     return (
         <StyledView>
-            {/* FIXME getting data back in an annying way 
-                BACKEND needs fixing on response
-            */}
             {suggestionsToPrompt.map(suggestion => (
-                <Text key={suggestion.symbol}>{suggestion.symbol}</Text>
+                <Text key={suggestion.symbol}>{suggestion.name}</Text>
             ))}
         </StyledView>
     );

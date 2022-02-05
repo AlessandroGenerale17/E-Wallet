@@ -7,11 +7,12 @@ import {
     NativeSyntheticEvent,
     TextInputChangeEventData
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Input from '../Input';
 import AddAssetInput from './addAssetInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSuggestions } from '../../store/addAssetFlow/actions';
+import {
+    fetchSuggestions,
+    clearSuggestions
+} from '../../store/addAssetFlow/actions';
 import { selectInputFieldSuggestions } from '../../store/addAssetFlow/selectors';
 import { Asset } from '../../types/Asset';
 
@@ -50,9 +51,11 @@ const Form: React.FC<Props> = ({}) => {
 
         let searchTerm = identifier.val.trim();
 
+        if (!searchTerm.length && suggestions.length)
+            dispatch(clearSuggestions());
         const timeout = setTimeout(() => {
             // or dispatch an action
-            if (searchTerm) dispatch(fetchSuggestions(identifier.val));
+            if (searchTerm.length) dispatch(fetchSuggestions(identifier.val));
         }, 1000);
 
         return () => clearTimeout(timeout);
@@ -102,20 +105,21 @@ const Form: React.FC<Props> = ({}) => {
 
     return (
         <View style={styles.form}>
-            <View>
-                <Text>Asset</Text>
+            <View style={styles.inputContainer}>
+                <Text style={styles.text}>Asset</Text>
                 <AddAssetInput
                     suggestions={suggestions}
                     onChange={onChange}
                     onBlur={onBlur}
                 />
             </View>
-            <View>
+            <View style={styles.errorContainer}>
                 {formState.identifier.error && (
                     <Text>Info Error: {formState.identifier.error}</Text>
                 )}
             </View>
-            <View>
+
+            {/* <View>
                 <Text>Quantity</Text>
                 <View style={styles.inputContainer}>
                     <Input
@@ -140,25 +144,30 @@ const Form: React.FC<Props> = ({}) => {
                     </TouchableOpacity>
                 </View>
                 <View></View>
-            </View>
+            </View> */}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     form: {
-        marginTop: `${MARGIN_HEIGHT}%`,
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'black'
+    },
+    text: {
+        color: 'white',
+        fontSize: 50
     },
     inputContainer: {
         width: '90%',
-        alignItems: 'center',
-        padding: '2%',
-        borderWidth: 3,
-        borderRadius: 9,
-        marginBottom: '2%',
-        flexDirection: 'row'
+        flex: 2,
+        justifyContent: 'space-evenly',
+        alignItems: 'center'
+    },
+    errorContainer: {
+        backgroundColor: 'white',
+        flex: 1
     }
 });
 

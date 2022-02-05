@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Dimensions,
     NativeSyntheticEvent,
-    TextInputChangeEventData
+    TextInputChangeEventData,
+    Keyboard
 } from 'react-native';
 import AddAssetInput from './addAssetInput';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +16,8 @@ import {
 } from '../../store/addAssetFlow/actions';
 import { selectInputFieldSuggestions } from '../../store/addAssetFlow/selectors';
 import { Asset } from '../../types/Asset';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import HideKeyboard from '../HideKeyBoard';
 
 const MARGIN_HEIGHT: number = Dimensions.get('window').height * 0.02;
 
@@ -105,6 +108,7 @@ const Form: React.FC<Props> = ({}) => {
 
     return (
         <View style={styles.form}>
+            {/* <HideKeyboard> */}
             <View style={styles.inputContainer}>
                 <Text style={styles.text}>Asset</Text>
                 <AddAssetInput
@@ -113,6 +117,7 @@ const Form: React.FC<Props> = ({}) => {
                     onBlur={onBlur}
                 />
             </View>
+            {/* </HideKeyboard> */}
             <View style={styles.errorContainer}>
                 {formState.identifier.error && (
                     <Text>Info Error: {formState.identifier.error}</Text>
@@ -152,12 +157,14 @@ const Form: React.FC<Props> = ({}) => {
 const styles = StyleSheet.create({
     form: {
         flex: 1,
-        alignItems: 'center',
         backgroundColor: 'black'
     },
     text: {
         color: 'white',
         fontSize: 50
+    },
+    TouchableWithoutFeedback: {
+        flex: 1
     },
     inputContainer: {
         width: '90%',

@@ -108,21 +108,22 @@ const Form: React.FC<Props> = ({}) => {
 
     return (
         <View style={styles.form}>
-            {/* <HideKeyboard> */}
-            <View style={styles.inputContainer}>
-                <Text style={styles.text}>Asset</Text>
-                <AddAssetInput
-                    suggestions={suggestions}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                />
-            </View>
-            {/* </HideKeyboard> */}
-            <View style={styles.errorContainer}>
-                {formState.identifier.error && (
-                    <Text>Info Error: {formState.identifier.error}</Text>
-                )}
-            </View>
+            <HideKeyboard viewStyle={styles.TouchableWithoutFeedback}>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.text}>Asset</Text>
+                    <AddAssetInput
+                        suggestions={suggestions}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                    />
+                </View>
+                <View style={styles.errorContainer}>
+                    {formState.identifier.error && (
+                        <Text>Info Error: {formState.identifier.error}</Text>
+                    )}
+                </View>
+                {/* Slider indicator */}
+            </HideKeyboard>
 
             {/* <View>
                 <Text>Quantity</Text>
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
         fontSize: 50
     },
     TouchableWithoutFeedback: {
-        flex: 1
+        height: '100%'
     },
     inputContainer: {
         width: '90%',
@@ -173,7 +174,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     errorContainer: {
-        backgroundColor: 'white',
         flex: 1
     }
 });

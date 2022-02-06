@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import {
     Text,
     View,
@@ -6,7 +6,8 @@ import {
     Dimensions,
     NativeSyntheticEvent,
     TextInputChangeEventData,
-    ScrollView
+    ScrollView,
+    NativeScrollEvent
 } from 'react-native';
 import AddAssetInput from './addAssetInput';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +18,6 @@ import {
 import { selectInputFieldSuggestions } from '../../store/addAssetFlow/selectors';
 import { Asset } from '../../types/Asset';
 import HideKeyboard from '../HideKeyBoard';
-import SliderIndicator from './sliderIndicator';
 
 const MARGIN_HEIGHT: number = Dimensions.get('window').height * 0.02;
 const WIDTH: number = Dimensions.get('window').width;
@@ -45,7 +45,7 @@ const Form: React.FC<Props> = ({}) => {
         quantity: { val: '', error: null },
         checkpoints: { val: [], error: null }
     });
-
+    const [currentOffset, setCurrentOffset] = useState<number>(0);
     const dispatch = useDispatch();
 
     const suggestions: Asset[] = useSelector(selectInputFieldSuggestions);
@@ -107,11 +107,37 @@ const Form: React.FC<Props> = ({}) => {
             }
         };
 
+    const scrollHandler = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const offset = e.nativeEvent.contentOffset.x;
+        const direction = offset < currentOffset ? 'left' : 'right';
+        setCurrentOffset(offset);
+        console.log('direction: ', direction);
+    };
+
     return (
-        <ScrollView horizontal>
+        <ScrollView
+            snapToInterval={WIDTH}
+            horizontal
+            onScroll={scrollHandler}
+            bounces={false}>
             <HideKeyboard viewStyle={styles.TouchableWithoutFeedback}>
                 <View style={styles.inputContainer}>
                     <Text style={styles.text}>Asset</Text>
+                    <AddAssetInput
+                        suggestions={suggestions}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                    />
+                </View>
+                <View style={styles.errorContainer}>
+                    {formState.identifier.error && (
+                        <Text>Info Error: {formState.identifier.error}</Text>
+                    )}
+                </View>
+            </HideKeyboard>
+            <HideKeyboard viewStyle={styles.TouchableWithoutFeedback}>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.text}>Quantity</Text>
                     <AddAssetInput
                         suggestions={suggestions}
                         onChange={onChange}

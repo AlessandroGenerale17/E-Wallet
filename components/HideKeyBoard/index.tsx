@@ -8,7 +8,9 @@ interface IProps {
 
 const HideKeyboard: React.FC<IProps> = ({ children, viewStyle }) => {
     return (
-        <TouchableWithoutFeedback style={viewStyle} onPress={() => Keyboard.dismiss()}>
+        <TouchableWithoutFeedback
+            style={viewStyle}
+            onPress={() => Keyboard.dismiss()}>
             {children}
         </TouchableWithoutFeedback>
     );

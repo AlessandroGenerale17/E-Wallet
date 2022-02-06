@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Form from '../../components/Form';
+import SliderIndicator from '../../components/Form/sliderIndicator';
 
 type AddAssetFlow = {
     stages: ['addAsset' | 'addQuantity' | 'addCheckpoints'];
@@ -15,13 +16,16 @@ const AddAsset: React.FC = () => {
     return (
         <View style={styles.view}>
             <Form onSubmit={onSubmit} />
+            {/* Slider indicator */}
+            <SliderIndicator />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     view: {
-        flex: 1
+        flex: 1,
+        position: 'relative'
     }
 });
 

@@ -6,7 +6,7 @@ import {
     Dimensions,
     NativeSyntheticEvent,
     TextInputChangeEventData,
-    Keyboard
+    ScrollView
 } from 'react-native';
 import AddAssetInput from './addAssetInput';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,10 +16,11 @@ import {
 } from '../../store/addAssetFlow/actions';
 import { selectInputFieldSuggestions } from '../../store/addAssetFlow/selectors';
 import { Asset } from '../../types/Asset';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import HideKeyboard from '../HideKeyBoard';
+import SliderIndicator from './sliderIndicator';
 
 const MARGIN_HEIGHT: number = Dimensions.get('window').height * 0.02;
+const WIDTH: number = Dimensions.get('window').width;
 
 type Checkpoint = {
     id: string;
@@ -107,7 +108,7 @@ const Form: React.FC<Props> = ({}) => {
         };
 
     return (
-        <View style={styles.form}>
+        <ScrollView horizontal>
             <HideKeyboard viewStyle={styles.TouchableWithoutFeedback}>
                 <View style={styles.inputContainer}>
                     <Text style={styles.text}>Asset</Text>
@@ -122,44 +123,12 @@ const Form: React.FC<Props> = ({}) => {
                         <Text>Info Error: {formState.identifier.error}</Text>
                     )}
                 </View>
-                {/* Slider indicator */}
             </HideKeyboard>
-
-            {/* <View>
-                <Text>Quantity</Text>
-                <View style={styles.inputContainer}>
-                    <Input
-                        placeholder='e.g. 2'
-                        onChange={e => onChange(e)('quantity')}
-                        onBlur={e => onBlur(e)('quantity')}
-                    />
-                </View>
-            </View>
-            <View>
-                {formState.quantity.error && (
-                    <Text>Info Error: {formState.quantity.error}</Text>
-                )}
-            </View>
-            <Text>Track your asset now</Text>
-            <Text>Place as many checkpoints as you deem necessary</Text>
-            <View>
-                <View>
-                    <Text>Your Checkpoints:</Text>
-                    <TouchableOpacity>
-                        <Text>+</Text>
-                    </TouchableOpacity>
-                </View>
-                <View></View>
-            </View> */}
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
-    form: {
-        flex: 1,
-        backgroundColor: 'black'
-    },
     text: {
         color: 'white',
         fontSize: 50
@@ -168,7 +137,7 @@ const styles = StyleSheet.create({
         height: '100%'
     },
     inputContainer: {
-        width: '90%',
+        width: WIDTH,
         flex: 2,
         justifyContent: 'space-evenly',
         alignItems: 'center'

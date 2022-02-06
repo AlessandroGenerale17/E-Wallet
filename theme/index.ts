@@ -13,7 +13,8 @@ const DarkTheme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
-        primary: 'rgb(0, 45, 85)'
+        primary: 'rgb(0, 45, 85)',
+        background: '#000000'
     },
     dark: true
 };

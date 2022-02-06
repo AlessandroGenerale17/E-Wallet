@@ -1,13 +1,41 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import Animated, {
+    useAnimatedStyle,
+    useSharedValue,
+    withSpring
+} from 'react-native-reanimated';
 
-const SliderIndicator = () => {
+type Props = {
+    slide: number;
+};
+
+const SliderIndicator: React.FC<Props> = ({ slide }) => {
+    const offset = useSharedValue(0);
+    const filledInStyle = useAnimatedStyle(() => {
+        return { transform: [{ translateX: withSpring(offset.value * 255) }] };
+    });
+
+    // useEffect(() => )
+
     return (
-        <View style={styles.container}>
-            <View style={[styles.circle, styles.circleActive]}></View>
-            <View style={styles.circle}></View>
-            <View style={styles.circle}></View>
-        </View>
+        <Animated.View style={[styles.container, filledInStyle]}>
+            <View
+                style={[
+                    styles.circle,
+                    slide === 0 ? styles.circleActive : styles.circleInactive
+                ]}></View>
+            <View
+                style={[
+                    styles.circle,
+                    slide === 1 ? styles.circleActive : styles.circleInactive
+                ]}></View>
+            <View
+                style={[
+                    styles.circle,
+                    slide === 2 ? styles.circleActive : styles.circleInactive
+                ]}></View>
+        </Animated.View>
     );
 };
 

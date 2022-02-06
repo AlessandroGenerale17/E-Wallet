@@ -36,10 +36,10 @@ type FormState = {
 };
 
 type Props = {
-    onSubmit: () => void;
+    onScroll: (direction: string) => void;
 };
 
-const Form: React.FC<Props> = ({}) => {
+const Form: React.FC<Props> = ({ onScroll }) => {
     const [formState, setFormState] = useState<FormState>({
         identifier: { val: '', error: null },
         quantity: { val: '', error: null },
@@ -111,7 +111,7 @@ const Form: React.FC<Props> = ({}) => {
         const offset = e.nativeEvent.contentOffset.x;
         const direction = offset < currentOffset ? 'left' : 'right';
         setCurrentOffset(offset);
-        console.log('direction: ', direction);
+        onScroll(direction);
     };
 
     return (

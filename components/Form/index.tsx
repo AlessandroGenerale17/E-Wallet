@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Text,
     View,
@@ -9,7 +9,9 @@ import {
     ScrollView,
     NativeScrollEvent
 } from 'react-native';
+import NumberPlease from 'react-native-number-please';
 import AddAssetInput from './addAssetInput';
+import AddCheckPointsInput from './addCheckPoints';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     fetchSuggestions,
@@ -19,7 +21,6 @@ import { selectInputFieldSuggestions } from '../../store/addAssetFlow/selectors'
 import { Asset } from '../../types/Asset';
 import HideKeyboard from '../HideKeyBoard';
 
-const MARGIN_HEIGHT: number = Dimensions.get('window').height * 0.02;
 const WIDTH: number = Dimensions.get('window').width;
 
 type Checkpoint = {
@@ -45,6 +46,9 @@ const Form: React.FC<Props> = ({ onScroll }) => {
         quantity: { val: '', error: null },
         checkpoints: { val: [], error: null }
     });
+    const initialValue = [{ id: 'qty', value: 4 }];
+    const pickers = [{ id: 'qty', min: 0, max: 99 }];
+    const [qty, setQty] = useState(initialValue);
     const [currentOffset, setCurrentOffset] = useState<number>(0);
     const dispatch = useDispatch();
 
@@ -107,6 +111,7 @@ const Form: React.FC<Props> = ({ onScroll }) => {
             }
         };
 
+    // TODO fix the scroll handler to support the slide indicator
     const scrollHandler = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
         const offset = e.nativeEvent.contentOffset.x;
         const direction = offset < currentOffset ? 'left' : 'right';
@@ -119,7 +124,7 @@ const Form: React.FC<Props> = ({ onScroll }) => {
             snapToInterval={WIDTH}
             horizontal
             onScroll={scrollHandler}
-            bounces={false}>
+            disableIntervalMomentum={true}>
             <HideKeyboard viewStyle={styles.TouchableWithoutFeedback}>
                 <View style={styles.inputContainer}>
                     <Text style={styles.text}>Asset</Text>
@@ -138,11 +143,23 @@ const Form: React.FC<Props> = ({ onScroll }) => {
             <HideKeyboard viewStyle={styles.TouchableWithoutFeedback}>
                 <View style={styles.inputContainer}>
                     <Text style={styles.text}>Quantity</Text>
-                    <AddAssetInput
-                        suggestions={suggestions}
-                        onChange={onChange}
-                        onBlur={onBlur}
+                    <NumberPlease
+                        pickerStyle={styles.pickerStyle}
+                        digits={pickers}
+                        values={qty}
+                        onChange={e => setQty(e)}
                     />
+                </View>
+                <View style={styles.errorContainer}>
+                    {formState.identifier.error && (
+                        <Text>Info Error: {formState.identifier.error}</Text>
+                    )}
+                </View>
+            </HideKeyboard>
+            <HideKeyboard viewStyle={styles.TouchableWithoutFeedback}>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.text}>Checkpoints</Text>
+                    <AddCheckPointsInput />
                 </View>
                 <View style={styles.errorContainer}>
                     {formState.identifier.error && (
@@ -170,6 +187,10 @@ const styles = StyleSheet.create({
     },
     errorContainer: {
         flex: 1
+    },
+    pickerStyle: {
+        borderRadius: 14,
+        backgroundColor: 'white'
     }
 });
 

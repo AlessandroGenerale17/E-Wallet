@@ -16,8 +16,6 @@ const SliderIndicator: React.FC<Props> = ({ slide }) => {
         return { transform: [{ translateX: withSpring(offset.value * 255) }] };
     });
 
-    // useEffect(() => )
-
     return (
         <Animated.View style={[styles.container, filledInStyle]}>
             <View

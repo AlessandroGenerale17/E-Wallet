@@ -31,7 +31,6 @@ const AddAsset: React.FC = () => {
     return (
         <View style={styles.view}>
             <Form onScroll={onScroll} />
-            {/* Slider indicator */}
             <SliderIndicator slide={addAssetFlow.currentStage} />
         </View>
     );
